@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Deny access to sensitive files if rewrite fails
+    RewriteRule ^(\.env|composer\.(json|lock)|artisan) - [F,L]
+
+    # Send all requests to the public/ folder
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
