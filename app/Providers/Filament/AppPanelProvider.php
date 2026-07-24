@@ -2,7 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\MisDatos;
 use App\Models\Tenant;
+use Filament\Actions\Action;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -31,6 +34,15 @@ class AppPanelProvider extends PanelProvider
             ->login(false)
             ->tenant(Tenant::class)
             ->tenantMenu(false)
+            ->userMenuItems([
+                'profile' => fn (Action $action): Action => $action
+                    ->label('Mis datos')
+                    ->icon('heroicon-o-user-circle')
+                    ->url(fn (): string => MisDatos::getUrl(
+                        panel: 'app',
+                        tenant: Filament::getTenant(),
+                    )),
+            ])
             ->colors([
                 'primary' => Color::hex('#5B54D6'),
             ])

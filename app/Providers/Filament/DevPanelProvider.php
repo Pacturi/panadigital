@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Dev\Pages\MisDatos;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,6 +29,12 @@ class DevPanelProvider extends PanelProvider
             ->id('dev')
             ->path('dev')
             ->login(false)
+            ->userMenuItems([
+                'profile' => fn (Action $action): Action => $action
+                    ->label('Mis datos')
+                    ->icon('heroicon-o-user-circle')
+                    ->url(fn (): string => MisDatos::getUrl(panel: 'dev')),
+            ])
             ->colors([
                 'primary' => Color::hex('#5B54D6'),
             ])
